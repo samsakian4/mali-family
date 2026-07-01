@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>مدیریت مالی خانواده</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Tahoma,sans-serif;background:#f1f5f9;direction:rtl}
+    .tc{padding:14px;display:none}
+    .tc.on{display:block}
+    .box{background:#fff;border-radius:10px;padding:14px;margin-bottom:12px}
+    .bt{font-weight:bold;font-size:13px;color:#0f172a;margin-bottom:12px}
+    .fi{margin-bottom:11px}
+    .fi label{font-size:12px;color:#64748b;display:block;margin-bottom:4px}
+    .fi input{width:100%;padding:8px 10px;border:1px solid #e2e8f0;border-radius:7px;
+              font-family:Tahoma;font-size:14px;outline:none;background:#f8fafc;color:#0f172a}
+    .ir{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9}
+    .il{font-size:13px;color:#64748b}
+    .iv{font-size:13px}
+    .rb{flex:1;background:#f8fafc;border-radius:7px;padding:10px 8px;text-align:center;border:1px solid #e2e8f0}
+    .rl{font-size:11px;color:#94a3b8}
+    .rv{font-size:22px;font-weight:bold;color:#2563eb;margin-top:4px}
+    .lr{background:#fff;border-radius:8px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .ln{flex:1;min-width:0}
+    .ln .nm{font-size:13px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ln .mt{display:flex;gap:6px;margin-top:3px;align-items:center}
+    .bd{font-size:11px;color:#94a3b8}
+    .btd{font-size:10px;padding:2px 6px;border:none;border-radius:3px;cursor:pointer;font-family:Tahoma}
+    .lai{width:105px;padding:5px 7px;border:1px solid #e2e8f0;border-radius:6px;
+         font-family:Tahoma;font-size:13px;text-align:left;outline:none}
+    .bdl{background:none;border:none;color:#dc2626;cursor:pointer;font-size:19px;padding:0;line-height:1}
+    .db{background:#0f172a;border-radius:8px;color:#fff;padding:10px 14px;margin-bottom:6px;
+        display:flex;justify-content:space-between;align-items:center}
+    .gb{background:#374151;border-radius:8px;color:#e2e8f0;padding:9px 14px;
+        display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .rb2{flex:1;border-radius:8px;padding:12px 10px;text-align:center;color:#fff}
+    .rb2 .rn2{font-size:12px}
+    .rb2 .rp2{font-size:28px;font-weight:bold;margin:5px 0}
+    .rb2 .rl2{font-size:11px;opacity:.65;margin-bottom:3px}
+    .rb2 .rv2{font-size:13px}
+    .bc{background:#fff;border-radius:10px;padding:14px;text-align:center}
+    .bc .bn{font-weight:bold;font-size:15px;margin-bottom:10px}
+    .bc .bla{font-size:11px;color:#94a3b8}
+    .bc .bv{font-size:14px;margin-bottom:10px}
+    .bc .br{font-size:22px;font-weight:bold}
+    .sr{padding:10px 12px;border-radius:7px;margin-top:4px;display:flex;justify-content:space-between;align-items:center}
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+    input[type=number]{-moz-appearance:textfield}
+    button{font-family:Tahoma,sans-serif}
+    .add-btn{width:100%;background:#0f172a;color:#fff;border:none;border-radius:7px;
+             padding:10px;cursor:pointer;font-family:Tahoma;font-size:14px;margin-top:2px}
+    .tbtn{flex:1;padding:10px 0;border:none;cursor:pointer;background:transparent;
+          color:#94a3b8;font-size:12px;font-family:Tahoma}
+    .tbtn.on{background:#2563eb;color:#fff}
+    .tf{background:#0f172a;color:#fff;border-radius:10px;padding:16px;text-align:center}
+  </style>
+</head>
+<body>
+<div style="max-width:480px;margin:0 auto;min-height:100vh;background:#f1f5f9">
+
+  <div id="hdr" style="background:#0f172a;color:#f8fafc;padding:14px 16px;font-size:15px;font-weight:bold">
+    مدیریت مالی خانواده
+  </div>
+
+  <div style="display:flex;background:#1e293b">
+    <button class="tbtn on" id="tb0" onclick="sw(0)">خانواده</button>
+    <button class="tbtn"    id="tb1" onclick="sw(1)">حقوق</button>
+    <button class="tbtn"    id="tb2" onclick="sw(2)">وام‌ها</button>
+    <button class="tbtn"    id="tb3" onclick="sw(3)">محاسبه</button>
+    <button class="tbtn"    id="tb4" onclick="sw(4)">مانده</button>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="tc on" id="t0">
+    <div class="box">
+      <div class="fi"><label>نام خانوادگی / نام خانواده</label>
+        <input id="fn" type="text" dir="rtl" oninput="os('familyName',this.value)"></div>
+      <div class="fi"><label>نام آقا (همسر اول)</label>
+        <input id="p1n" type="text" dir="rtl" oninput="os('p1Name',this.value)"></div>
+      <div class="fi"><label>نام خانم (همسر دوم)</label>
+        <input id="p2n" type="text" dir="rtl" oninput="os('p2Name',this.value)"></div>
+    </div>
+    <div id="fprev"></div>
+    <div style="font-size:12px;color:#94a3b8;padding:4px 2px;line-height:1.8">
+      این اطلاعات فقط برای نمایش نام استفاده میشه.
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="tc" id="t1">
+    <div class="box">
+      <div class="bt" id="lb1">همسر اول — آقا</div>
+      <div class="fi"><label id="lp1s">حقوق آقا</label>
+        <input id="p1s" type="text" inputmode="decimal" dir="ltr" oninput="on_('p1Salary',this.value)" placeholder="مبلغ به تومان"></div>
+      <div class="fi"><label id="le1">معافیت همسر خانم (٪)</label>
+        <input id="e1" type="text" inputmode="decimal" dir="ltr" oninput="on_('exempt1',this.value)" placeholder="0"></div>
+      <div class="ir"><span class="il" id="la1">حقوق محاسباتی آقا</span><span class="iv" id="da1">۰ ت</span></div>
+    </div>
+    <div class="box">
+      <div class="bt" id="lb2">همسر دوم — خانم</div>
+      <div class="fi"><label id="lp2s">حقوق خانم</label>
+        <input id="p2s" type="text" inputmode="decimal" dir="ltr" oninput="on_('p2Salary',this.value)" placeholder="مبلغ به تومان"></div>
+      <div class="fi"><label id="le2">معافیت همسر آقا (٪)</label>
+        <input id="e2" type="text" inputmode="decimal" dir="ltr" oninput="on_('exempt2',this.value)" placeholder="0"></div>
+      <div class="ir"><span class="il" id="la2">حقوق محاسباتی خانم</span><span class="iv" id="da2">۰ ت</span></div>
+    </div>
+    <div class="box">
+      <div class="ir"><span class="il">جمع واقعی حقوق</span><span class="iv" id="dtr">۰ ت</span></div>
+      <div class="ir"><span class="il" style="font-weight:bold">جمع محاسباتی (مبنای نسبت)</span>
+                      <span class="iv" style="font-weight:bold" id="dtc">۰ ت</span></div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <div class="rb"><div class="rl" id="lr1">نسبت آقا</div><div class="rv" id="dr1">۰٪</div></div>
+        <div class="rb"><div class="rl" id="lr2">نسبت خانم</div><div class="rv" id="dr2">۰٪</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="tc" id="t2">
+    <div id="ll"></div>
+    <div class="box">
+      <div class="bt">+ افزودن بدهی / قسط</div>
+      <div class="fi"><label>نام بدهی</label>
+        <input id="lnn" type="text" dir="rtl" placeholder="مثلاً: وام مسکن"></div>
+      <div class="fi"><label>مبلغ (تومان)</label>
+        <input id="lna" type="text" inputmode="decimal" dir="ltr" placeholder="0"></div>
+      <div class="fi"><label>موعد پرداخت</label>
+        <input id="lnd" type="text" dir="rtl" placeholder="مثلاً: ۱۴م"></div>
+      <button class="add-btn" onclick="addL()">افزودن</button>
+    </div>
+    <div id="lt"></div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="tc" id="t3">
+    <div class="box">
+      <div class="bt">نسبت مشارکت در اقساط</div>
+      <div style="font-size:11px;color:#94a3b8;margin-bottom:12px;line-height:1.8">
+        فرمول: حقوق محاسباتی هر نفر ÷ مجموع محاسباتی = درصد مشارکت
+      </div>
+      <div style="display:flex;gap:10px">
+        <div class="rb2" style="background:#1e3a5f">
+          <div class="rn2" id="cn1">آقا</div>
+          <div class="rp2" id="cr1">۰٪</div>
+          <div class="rl2">سهم از اقساط</div>
+          <div class="rv2" id="co1">۰ ت</div>
+        </div>
+        <div class="rb2" style="background:#4c1d1d">
+          <div class="rn2" id="cn2">خانم</div>
+          <div class="rp2" id="cr2">۰٪</div>
+          <div class="rl2">سهم از اقساط</div>
+          <div class="rv2" id="co2">۰ ت</div>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="bt" id="cst">وضعیت تسویه خانم</div>
+      <div class="ir"><span class="il" id="csl">سهم خانم از اقساط فعال</span><span class="iv" id="co3">۰ ت</span></div>
+      <div class="fi" style="margin-top:10px"><label id="lpp">پرداخت‌شده توسط خانم</label>
+        <input id="pp" type="text" inputmode="decimal" dir="ltr" oninput="on_('p2Paid',this.value)" placeholder="0"></div>
+      <div class="fi"><label>واریزی</label>
+        <input id="pd" type="text" inputmode="decimal" dir="ltr" oninput="on_('p2Deposit',this.value)" placeholder="0"></div>
+      <div class="sr" id="sres" style="background:#fef2f2">
+        <span style="font-size:13px" id="srl">مانده دریافتنی</span>
+        <span style="font-size:15px;font-weight:bold;color:#dc2626" id="srv">۰ ت</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4 -->
+  <div class="tc" id="t4">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div class="bc">
+        <div class="bn" id="bn1">آقا</div>
+        <div class="bla">حقوق</div><div class="bv" id="bs1">۰</div>
+        <div class="bla">سهم اقساط</div><div class="bv" style="color:#dc2626" id="bo1">۰</div>
+        <div class="bla">مانده آزاد</div><div class="br" id="br1">۰</div>
+      </div>
+      <div class="bc">
+        <div class="bn" id="bn2">خانم</div>
+        <div class="bla">حقوق</div><div class="bv" id="bs2">۰</div>
+        <div class="bla">سهم اقساط</div><div class="bv" style="color:#dc2626" id="bo2">۰</div>
+        <div class="bla">مانده آزاد</div><div class="br" id="br2">۰</div>
+      </div>
+    </div>
+    <div class="tf">
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:4px">مجموع آزاد خانواده</div>
+      <div style="font-size:28px;font-weight:bold" id="btot">۰</div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:3px">تومان</div>
+    </div>
+  </div>
+
+</div>
+<script>
+const fmt=n=>Math.round(n||0).toLocaleString("fa-IR");
+const el=id=>document.getElementById(id);
+const tx=(id,v)=>{const e=el(id);if(e)e.textContent=v};
+const st=(id,p,v)=>{const e=el(id);if(e)e.style[p]=v};
+const ih=(id,v)=>{const e=el(id);if(e)e.innerHTML=v};
+const FA="۰۱۲۳۴۵۶۷۸۹",AR="٠١٢٣٤٥٦٧٨٩";
+function toEn(v){
+  v=String(v||"");
+  v=v.replace(/[۰-۹]/g,c=>FA.indexOf(c)).replace(/[٠-٩]/g,c=>AR.indexOf(c));
+  v=v.replace(/[,،\u066C\s]/g,"");
+  return v;
+}
+function numVal(v){const n=parseFloat(toEn(v));return isNaN(n)?0:n}
+
+let S={tab:0,familyName:"",p1Name:"",p2Name:"",
+       p1Salary:0,p2Salary:0,exempt1:0,exempt2:0,p2Paid:0,p2Deposit:0,loans:[]};
+
+function load(){
+  try{
+    const d=localStorage.getItem("gfam_d");
+    const l=localStorage.getItem("gfam_l");
+    if(d){const p=JSON.parse(d);"familyName p1Name p2Name p1Salary p2Salary exempt1 exempt2 p2Paid p2Deposit tab".split(" ").forEach(k=>{if(p[k]!==undefined)S[k]=p[k]});}
+    if(l)S.loans=JSON.parse(l);
+  }catch(e){}
+}
+
+function save(){
+  try{
+    const{loans,...r}=S;
+    localStorage.setItem("gfam_d",JSON.stringify(r));
+    localStorage.setItem("gfam_l",JSON.stringify(loans));
+  }catch(e){}
+}
+
+function calc(){
+  const{p1Salary,p2Salary,exempt1,exempt2,p2Paid,p2Deposit,loans}=S;
+  const p1a=p1Salary*(1-exempt1/100),p2a=p2Salary*(1-exempt2/100);
+  const tot=(p1a+p2a)||1;
+  const p1r=p1a/tot,p2r=p2a/tot;
+  const act=loans.filter(l=>!l.deferred),def=loans.filter(l=>l.deferred);
+  const ta=act.reduce((s,l)=>s+(+l.amount||0),0),td=def.reduce((s,l)=>s+(+l.amount||0),0);
+  const p1o=ta*p1r,p2o=ta*p2r,p2n=p2o-p2Paid-p2Deposit;
+  return{p1a,p2a,tot,p1r,p2r,ta,td,p1o,p2o,p2n,p1Rem:p1Salary-p1o,p2Rem:p2Salary-p2o};
+}
+
+function n1(){return S.p1Name||"آقا"}
+function n2(){return S.p2Name||"خانم"}
+
+function upd(){
+  const c=calc(),_1=n1(),_2=n2();
+  tx("hdr",S.familyName?"خانواده "+S.familyName:"مدیریت مالی خانواده");
+  ih("fprev",(S.familyName||S.p1Name||S.p2Name)?
+    `<div class="box" style="text-align:center;padding:16px;margin-bottom:12px">
+      <div style="font-size:18px;font-weight:bold;color:#0f172a">${S.familyName||"—"}</div>
+      <div style="font-size:14px;color:#64748b;margin-top:6px">${_1} و ${_2}</div></div>`:"");
+  tx("lb1","همسر اول — "+_1);tx("lb2","همسر دوم — "+_2);
+  tx("lp1s","حقوق "+_1);tx("lp2s","حقوق "+_2);
+  tx("le1","معافیت همسر خانم (٪) — درصدی از حقوق "+_1+" که "+_2+" معاف می‌کنه");
+  tx("le2","معافیت همسر آقا (٪) — درصدی از حقوق "+_2+" که "+_1+" معاف می‌کنه");
+  tx("la1","حقوق محاسباتی "+_1);tx("la2","حقوق محاسباتی "+_2);
+  tx("lr1","نسبت "+_1);tx("lr2","نسبت "+_2);
+  tx("da1",fmt(c.p1a)+" ت");tx("da2",fmt(c.p2a)+" ت");
+  tx("dtr",fmt(S.p1Salary+S.p2Salary)+" ت");tx("dtc",fmt(c.tot)+" ت");
+  tx("dr1",(c.p1r*100).toFixed(1)+"٪");tx("dr2",(c.p2r*100).toFixed(1)+"٪");
+  tx("cn1",_1);tx("cn2",_2);
+  tx("cr1",(c.p1r*100).toFixed(1)+"٪");tx("cr2",(c.p2r*100).toFixed(1)+"٪");
+  tx("co1",fmt(c.p1o)+" ت");tx("co2",fmt(c.p2o)+" ت");tx("co3",fmt(c.p2o)+" ت");
+  tx("cst","وضعیت تسویه "+_2);tx("csl","سهم "+_2+" از اقساط فعال");
+  tx("lpp","پرداخت‌شده توسط "+_2);
+  const pos=c.p2n>0;
+  st("sres","background",pos?"#fef2f2":"#f0fdf4");
+  tx("srl",pos?"مانده دریافتنی از "+_2:_2+" اضافه پرداخت کرده");
+  tx("srv",fmt(Math.abs(c.p2n))+" ت");st("srv","color",pos?"#dc2626":"#16a34a");
+  tx("bn1",_1);tx("bn2",_2);
+  tx("bs1",fmt(S.p1Salary));tx("bs2",fmt(S.p2Salary));
+  tx("bo1",fmt(c.p1o));tx("bo2",fmt(c.p2o));
+  tx("br1",fmt(c.p1Rem));tx("br2",fmt(c.p2Rem));
+  st("br1","color",c.p1Rem>=0?"#16a34a":"#dc2626");
+  st("br2","color",c.p2Rem>=0?"#16a34a":"#dc2626");
+  tx("btot",fmt(c.p1Rem+c.p2Rem));
+  rl();
+}
+
+function rl(){
+  const c=calc();
+  const act=S.loans.filter(l=>!l.deferred),def=S.loans.filter(l=>l.deferred);
+  const ta=act.reduce((s,l)=>s+(+l.amount||0),0),td=def.reduce((s,l)=>s+(+l.amount||0),0);
+  ih("ll",S.loans.length===0?
+    '<div style="text-align:center;padding:28px 0;color:#94a3b8;font-size:14px">هنوز بدهی ثبت نشده</div>':
+    S.loans.map(l=>`<div class="lr${l.deferred?" lr-def":""}">
+      <div class="ln">
+        <div class="nm">${l.name}</div>
+        <div class="mt">
+          ${l.due?`<span class="bd">موعد: ${l.due}</span>`:""}
+          <button class="btd" style="background:${l.deferred?"#fef3c7":"#dcfce7"};color:${l.deferred?"#92400e":"#15803d"}"
+            onclick="tog(${l.id})">${l.deferred?"موکول":"فعال"}</button>
+        </div>
+      </div>
+      <input type="text" inputmode="decimal" dir="ltr" class="lai" value="${l.amount||""}" placeholder="0"
+        onchange="ula(${l.id},this.value)">
+      <button class="bdl" onclick="del(${l.id})">&#x2715;</button>
+    </div>`).join(""));
+  ih("lt",S.loans.length>0?
+    `<div class="db"><span style="font-size:13px;color:#94a3b8">اقساط فعال</span>
+      <span style="font-size:18px;font-weight:bold">${fmt(ta)} ت</span></div>
+     ${td>0?`<div class="gb"><span style="font-size:13px;color:#94a3b8">موکول (خارج از محاسبه)</span>
+      <span style="font-size:14px">${fmt(td)} ت</span></div>`:""}`:""
+  );
+  if(document.querySelector(".lr-def"))
+    document.querySelectorAll(".lr-def").forEach(e=>e.style.opacity="0.55");
+}
+
+function os(k,v){S[k]=v;save();upd()}
+function on_(k,v,id){
+  S[k]=numVal(v);
+  save();upd();
+  if(id){const e=el(id);if(e&&document.activeElement!==e)e.value=S[k]||"";}
+}
+
+function addL(){
+  const nm=el("lnn").value.trim();
+  if(!nm)return;
+  S.loans.push({id:Date.now(),name:nm,amount:numVal(el("lna").value),due:el("lnd").value.trim(),deferred:false});
+  el("lnn").value="";el("lna").value="";el("lnd").value="";
+  save();upd();
+}
+function del(id){S.loans=S.loans.filter(l=>l.id!==id);save();upd()}
+function tog(id){const l=S.loans.find(l=>l.id===id);if(l)l.deferred=!l.deferred;save();upd()}
+function ula(id,v){const l=S.loans.find(l=>l.id===id);if(l)l.amount=numVal(v);save();upd()}
+
+function sw(i){
+  [0,1,2,3,4].forEach(j=>{
+    el("t"+j).className="tc";
+    el("tb"+j).className="tbtn";
+  });
+  el("t"+i).className="tc on";
+  el("tb"+i).className="tbtn on";
+  S.tab=i;save();
+}
+
+function pi(){
+  const sv=(id,v)=>{const e=el(id);if(e&&v)e.value=v};
+  sv("fn",S.familyName);sv("p1n",S.p1Name);sv("p2n",S.p2Name);
+  if(S.p1Salary)sv("p1s",S.p1Salary);if(S.p2Salary)sv("p2s",S.p2Salary);
+  if(S.exempt1)sv("e1",S.exempt1);if(S.exempt2)sv("e2",S.exempt2);
+  if(S.p2Paid)sv("pp",S.p2Paid);if(S.p2Deposit)sv("pd",S.p2Deposit);
+}
+
+load();pi();sw(S.tab||0);upd();
+
+if("serviceWorker"in navigator)
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
