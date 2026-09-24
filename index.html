@@ -16,16 +16,17 @@ body{font-family:Tahoma,sans-serif;background:#f1f5f9;direction:rtl}
 .card{background:#fff;border-radius:10px;padding:14px;margin-bottom:12px}
 label{font-size:12px;color:#64748b;display:block;margin-bottom:4px}
 .fi{margin-bottom:10px}
-.fi input{width:100%;padding:9px 10px;border:1px solid #e2e8f0;border-radius:7px;font-family:Tahoma;font-size:14px;outline:none;background:#f8fafc;color:#0f172a}
+.fi input,.fi select{width:100%;padding:9px 10px;border:1px solid #e2e8f0;border-radius:7px;font-family:Tahoma;font-size:14px;outline:none;background:#f8fafc;color:#0f172a}
 .btn{width:100%;padding:11px;border:none;border-radius:8px;font-family:Tahoma;font-size:14px;cursor:pointer;font-weight:bold;margin-top:4px}
 .dk{background:#0f172a;color:#fff}.bl{background:#2563eb;color:#fff}
 .gr{background:#16a34a;color:#fff}.rd{background:#dc2626;color:#fff}
 .sm{width:auto;padding:7px 16px;font-size:13px;margin-top:0}
 .err{color:#dc2626;font-size:12px;margin:4px 0;display:none}
 .ok{color:#16a34a;font-size:12px;margin:4px 0;display:none}
-.tbbar{display:flex;background:#1e293b}
-.tb{flex:1;padding:10px 0;border:none;cursor:pointer;background:transparent;color:#94a3b8;font-size:12px;font-family:Tahoma}
-.tb.on{background:#2563eb;color:#fff}
+.tbbar{display:flex;background:#1e293b;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tbbar::-webkit-scrollbar{display:none}
+.tb{flex:0 0 auto;padding:10px 14px;border:none;cursor:pointer;background:transparent;color:#94a3b8;font-size:12px;font-family:Tahoma;white-space:nowrap}
+.tb.on{background:#2563eb;color:#fff;border-radius:0}
 .tc{display:none;padding:14px}.tc.on{display:block}
 .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f1f5f9;align-items:center}
 .rl{font-size:13px;color:#64748b}.rv{font-size:13px}
@@ -41,7 +42,37 @@ label{font-size:12px;color:#64748b;display:block;margin-bottom:4px}
 .inv{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #2563eb}
 .bg{background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold}
 .by{background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold}
+.br{background:#fee2e2;color:#dc2626;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold}
 .mt{font-size:12px;color:#94a3b8;line-height:1.7;margin-top:6px}
+/* expenses */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.cat-btn{border:2px solid #e2e8f0;border-radius:10px;padding:10px 4px;background:#f8fafc;cursor:pointer;text-align:center;font-family:Tahoma}
+.cat-btn.on{border-color:#2563eb;background:#eff6ff}
+.cat-btn div:first-child{font-size:22px}
+.cat-btn div:last-child{font-size:10px;color:#64748b;margin-top:3px}
+.exp-row{background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.exp-icon{font-size:22px;flex-shrink:0}
+/* goals */
+.goal-card{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px}
+.prog-bar{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin:8px 0}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#2563eb,#60a5fa);transition:width .3s}
+/* toggles */
+.tog2{display:flex;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:10px}
+.tog2 button{flex:1;padding:9px;border:none;cursor:pointer;background:#f8fafc;color:#64748b;font-family:Tahoma;font-size:13px}
+.tog2 button.on{background:#0f172a;color:#fff}
+/* day picker */
+.dpover{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:999;align-items:flex-end;justify-content:center}
+.dpbox{background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 32px;width:100%;max-width:480px;margin:0 auto}
+/* loan status colors */
+.loan-ok{border-right:3px solid #16a34a}
+.loan-soon{border-right:3px solid #f59e0b}
+.loan-due{border-right:3px solid #dc2626}
+.loan-def{opacity:.5}
+/* stat boxes */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-box{background:#fff;border-radius:10px;padding:14px;text-align:center}
+.stat-label{font-size:11px;color:#94a3b8;margin-bottom:4px}
+.stat-val{font-size:20px;font-weight:bold}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
 </style>
@@ -64,8 +95,7 @@ input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
     <div class="card">
       <div class="fi"><label>ایمیل</label><input id="a-em" type="email" dir="ltr" placeholder="email@example.com"></div>
       <div class="fi"><label>پسورد</label><input id="a-pw" type="password" dir="ltr" placeholder="حداقل 6 کاراکتر"></div>
-      <div id="a-err" class="err"></div>
-      <div id="a-ok" class="ok"></div>
+      <div id="a-err" class="err"></div><div id="a-ok" class="ok"></div>
       <button id="a-btn" class="btn dk" onclick="doAuth()">ورود</button>
     </div>
     <div class="mt" style="text-align:center">اطلاعات شما روی سرور اروپا با رمزنگاری ذخیره میشن</div>
@@ -73,8 +103,7 @@ input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
 </div></div>
 
 <div id="sc-setup" class="sc"><div class="w">
-  <div class="hdr">
-    <span>راه اندازی</span>
+  <div class="hdr"><span>راه اندازی</span>
     <button onclick="doLogout()" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-family:Tahoma;font-size:12px">خروج</button>
   </div>
   <div style="padding:16px">
@@ -85,7 +114,6 @@ input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
       <div id="f-err" class="err"></div>
       <button class="btn dk" onclick="createFam()">ایجاد خانواده</button>
     </div>
-    <div class="mt" style="text-align:center">پس از ایجاد میتونی همسرت رو دعوت کنی</div>
   </div>
 </div></div>
 
@@ -93,19 +121,43 @@ input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
   <div class="hdr">
     <span id="app-hdr">مدیریت مالی</span>
     <div style="display:flex;gap:6px;align-items:center">
-      <span id="app-em" style="font-size:10px;color:#64748b;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+      <span id="app-em" style="font-size:10px;color:#64748b;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
       <button onclick="doLogout()" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-family:Tahoma;font-size:12px">خروج</button>
     </div>
   </div>
   <div class="tbbar">
-    <button class="tb on" id="tb0" onclick="sw(0)">خانواده</button>
-    <button class="tb" id="tb1" onclick="sw(1)">حقوق</button>
-    <button class="tb" id="tb2" onclick="sw(2)">وام ها</button>
-    <button class="tb" id="tb3" onclick="sw(3)">محاسبه</button>
-    <button class="tb" id="tb4" onclick="sw(4)">مانده</button>
+    <button class="tb on" id="tb0" onclick="sw(0)">📊 خلاصه</button>
+    <button class="tb" id="tb1" onclick="sw(1)">👨‍👩‍ خانواده</button>
+    <button class="tb" id="tb2" onclick="sw(2)">💵 حقوق</button>
+    <button class="tb" id="tb3" onclick="sw(3)">🏦 اقساط</button>
+    <button class="tb" id="tb4" onclick="sw(4)">🛒 هزینه‌ها</button>
+    <button class="tb" id="tb5" onclick="sw(5)">🎯 اهداف</button>
+    <button class="tb" id="tb6" onclick="sw(6)">📐 محاسبه</button>
+    <button class="tb" id="tb7" onclick="sw(7)">💰 مانده</button>
   </div>
 
+  <!-- TAB 0: خلاصه -->
   <div class="tc on" id="t0">
+    <div class="card" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;padding:18px">
+      <div style="font-size:12px;opacity:.7;margin-bottom:4px" id="dash-month">ماه جاری</div>
+      <div style="font-size:13px;opacity:.8;margin-bottom:6px">مانده آزاد خانواده</div>
+      <div style="font-size:32px;font-weight:bold" id="dash-free">۰</div>
+      <div style="font-size:12px;opacity:.6;margin-top:4px">تومان</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-label">درآمد کل</div><div class="stat-val" id="dash-income" style="color:#16a34a">۰</div></div>
+      <div class="stat-box"><div class="stat-label">اقساط ماه</div><div class="stat-val" id="dash-loans" style="color:#dc2626">۰</div></div>
+      <div class="stat-box"><div class="stat-label">هزینه این ماه</div><div class="stat-val" id="dash-exp" style="color:#f59e0b">۰</div></div>
+      <div class="stat-box"><div class="stat-label">پس‌انداز هدف</div><div class="stat-val" id="dash-save" style="color:#2563eb">۰</div></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:bold;font-size:13px;margin-bottom:10px">اقساط نزدیک</div>
+      <div id="dash-upcoming"></div>
+    </div>
+  </div>
+
+  <!-- TAB 1: خانواده -->
+  <div class="tc" id="t1">
     <div class="card">
       <div style="font-weight:bold;font-size:13px;margin-bottom:12px">اطلاعات خانواده</div>
       <div class="fi"><label>نام خانواده</label><input id="f_fn" type="text" dir="rtl" oninput="sf('name',this.value)"></div>
@@ -121,119 +173,161 @@ input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
       <div class="fi"><label>ایمیل همسر</label><input id="inv-em" type="email" dir="ltr" placeholder="email@example.com"></div>
       <div id="inv-err" class="err"></div><div id="inv-ok" class="ok"></div>
       <button class="btn bl" onclick="sendInv()">ارسال دعوت نامه</button>
-      <div class="mt">همسرت اول باید با این ایمیل ثبت نام کنه، بعد دعوت ارسال کن</div>
+      <div class="mt">همسرت اول باید با این ایمیل ثبت نام کنه</div>
     </div>
   </div>
 
-  <div class="tc" id="t1">
+  <!-- TAB 2: حقوق -->
+  <div class="tc" id="t2">
     <div class="card">
-      <div style="font-weight:bold;font-size:13px;margin-bottom:12px;color:#0f172a" id="lb1">همسر اول</div>
+      <div style="font-weight:bold;font-size:13px;margin-bottom:12px" id="lb1">همسر اول</div>
       <div class="fi"><label id="lp1s">حقوق</label><input id="i_p1s" type="number" oninput="sfn('p1_salary',this.value)" placeholder="مبلغ به تومان"></div>
       <div class="fi"><label id="le1">معافیت همسر خانم (%)</label><input id="i_e1" type="number" oninput="sfn('exempt1',this.value)" placeholder="0"></div>
-      <div class="row"><span class="rl" id="la1">حقوق محاسباتی</span><span class="rv" id="da1">0 ت</span></div>
+      <div class="row"><span class="rl" id="la1">حقوق محاسباتی</span><span class="rv" id="da1">۰ ت</span></div>
     </div>
     <div class="card">
-      <div style="font-weight:bold;font-size:13px;margin-bottom:12px;color:#0f172a" id="lb2">همسر دوم</div>
+      <div style="font-weight:bold;font-size:13px;margin-bottom:12px" id="lb2">همسر دوم</div>
       <div class="fi"><label id="lp2s">حقوق</label><input id="i_p2s" type="number" oninput="sfn('p2_salary',this.value)" placeholder="مبلغ به تومان"></div>
       <div class="fi"><label id="le2">معافیت همسر اقا (%)</label><input id="i_e2" type="number" oninput="sfn('exempt2',this.value)" placeholder="0"></div>
-      <div class="row"><span class="rl" id="la2">حقوق محاسباتی</span><span class="rv" id="da2">0 ت</span></div>
+      <div class="row"><span class="rl" id="la2">حقوق محاسباتی</span><span class="rv" id="da2">۰ ت</span></div>
     </div>
     <div class="card">
-      <div class="row"><span class="rl">جمع واقعی</span><span class="rv" id="dtr">0 ت</span></div>
-      <div class="row"><span class="rl" style="font-weight:bold">جمع محاسباتی (مبنای نسبت)</span><span class="rv" style="font-weight:bold" id="dtc">0 ت</span></div>
+      <div class="row"><span class="rl">جمع واقعی</span><span class="rv" id="dtr">۰ ت</span></div>
+      <div class="row"><span class="rl" style="font-weight:bold">جمع محاسباتی</span><span class="rv" style="font-weight:bold" id="dtc">۰ ت</span></div>
       <div style="display:flex;gap:8px;margin-top:12px">
-        <div class="rbox"><div style="font-size:11px;color:#94a3b8" id="lr1">نسبت اقا</div><div style="font-size:22px;font-weight:bold;color:#2563eb;margin-top:4px" id="dr1">0%</div></div>
-        <div class="rbox"><div style="font-size:11px;color:#94a3b8" id="lr2">نسبت خانم</div><div style="font-size:22px;font-weight:bold;color:#2563eb;margin-top:4px" id="dr2">0%</div></div>
+        <div class="rbox"><div style="font-size:11px;color:#94a3b8" id="lr1">نسبت اقا</div><div style="font-size:22px;font-weight:bold;color:#2563eb;margin-top:4px" id="dr1">۰%</div></div>
+        <div class="rbox"><div style="font-size:11px;color:#94a3b8" id="lr2">نسبت خانم</div><div style="font-size:22px;font-weight:bold;color:#2563eb;margin-top:4px" id="dr2">۰%</div></div>
       </div>
     </div>
   </div>
 
-  <div class="tc" id="t2">
-    <div id="ll"><div style="text-align:center;padding:28px 0;color:#94a3b8;font-size:14px">هنوز بدهی ثبت نشده</div></div>
+  <!-- TAB 3: اقساط -->
+  <div class="tc" id="t3">
+    <div id="ll"><div style="text-align:center;padding:28px 0;color:#94a3b8">هنوز قسطی ثبت نشده</div></div>
     <div class="card">
-      <div style="font-weight:bold;font-size:13px;margin-bottom:10px">+ افزودن بدهی / قسط</div>
+      <div style="font-weight:bold;font-size:13px;margin-bottom:10px">+ افزودن قسط / بدهی</div>
       <div class="fi"><label>نام</label><input id="l_nm" type="text" dir="rtl" placeholder="مثلا: وام مسکن"></div>
       <div class="fi"><label>مبلغ (تومان)</label><input id="l_am" type="number" placeholder="0"></div>
-      <div class="fi"><label>روز موعد پرداخت</label>
-        <select id="l_du" style="width:100%;padding:9px 10px;border:1px solid #e2e8f0;border-radius:7px;font-family:Tahoma;font-size:14px;outline:none;background:#f8fafc;color:#0f172a;-webkit-appearance:none">
-          <option value="">-- انتخاب کنید --</option>
-          <option value="1م">روز 1ام</option>
-          <option value="2م">روز 2ام</option>
-          <option value="3م">روز 3ام</option>
-          <option value="4م">روز 4ام</option>
-          <option value="5م">روز 5ام</option>
-          <option value="6م">روز 6ام</option>
-          <option value="7م">روز 7ام</option>
-          <option value="8م">روز 8ام</option>
-          <option value="9م">روز 9ام</option>
-          <option value="10م">روز 10ام</option>
-          <option value="11م">روز 11ام</option>
-          <option value="12م">روز 12ام</option>
-          <option value="13م">روز 13ام</option>
-          <option value="14م">روز 14ام</option>
-          <option value="15م">روز 15ام</option>
-          <option value="16م">روز 16ام</option>
-          <option value="17م">روز 17ام</option>
-          <option value="18م">روز 18ام</option>
-          <option value="19م">روز 19ام</option>
-          <option value="20م">روز 20ام</option>
-          <option value="21م">روز 21ام</option>
-          <option value="22م">روز 22ام</option>
-          <option value="23م">روز 23ام</option>
-          <option value="24م">روز 24ام</option>
-          <option value="25م">روز 25ام</option>
-          <option value="26م">روز 26ام</option>
-          <option value="27م">روز 27ام</option>
-          <option value="28م">روز 28ام</option>
-          <option value="29م">روز 29ام</option>
-          <option value="30م">روز 30ام</option>
-          <option value="عیدی">موعد عیدی</option>
-          <option value="بهمن">برج بهمن</option>
-          <option value="نامشخص">نامشخص</option>
-        </select>
+      <div class="fi"><label>نوع پرداخت</label>
+        <div class="tog2">
+          <button id="rec-btn-yes" class="on" onclick="setRec(true)">🔄 ماهانه</button>
+          <button id="rec-btn-no" onclick="setRec(false)">1️⃣ یکبار</button>
+        </div>
+      </div>
+      <div id="due-day-row" class="fi">
+        <label>روز پرداخت در ماه</label>
+        <input type="hidden" id="l_du" value="">
+        <div id="l_du_disp" onclick="openDayPicker()" style="width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#f8fafc">
+          <span id="l_du_txt" style="color:#94a3b8;font-family:Tahoma;font-size:14px">انتخاب روز</span>
+          <span style="color:#94a3b8">▼</span>
+        </div>
       </div>
       <button class="btn dk" onclick="addLoan()">افزودن</button>
     </div>
     <div id="lt"></div>
   </div>
 
-  <div class="tc" id="t3">
+  <!-- TAB 4: هزینه‌ها -->
+  <div class="tc" id="t4">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-weight:bold;font-size:13px">هزینه‌های این ماه</div>
+        <div style="font-size:12px;color:#64748b" id="cur-month-lbl"></div>
+      </div>
+      <div id="exp-totals"></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:bold;font-size:13px;margin-bottom:10px">+ ثبت هزینه</div>
+      <div class="fi"><label>دسته‌بندی</label>
+        <div class="cat-grid" id="cat-grid"></div>
+      </div>
+      <div class="fi"><label>شرح (اختیاری)</label><input id="e_nm" type="text" dir="rtl" placeholder="مثلا: قبض برق"></div>
+      <div class="fi"><label>مبلغ (تومان)</label><input id="e_am" type="number" placeholder="0"></div>
+      <button class="btn dk" onclick="addExp()">ثبت هزینه</button>
+    </div>
+    <div id="exp-list"></div>
+  </div>
+
+  <!-- TAB 5: اهداف -->
+  <div class="tc" id="t5">
+    <div id="goal-list"></div>
+    <div class="card">
+      <div style="font-weight:bold;font-size:13px;margin-bottom:12px">+ هدف مالی جدید</div>
+      <div class="fi"><label>عنوان هدف</label><input id="g_nm" type="text" dir="rtl" placeholder="مثلا: خرید ماشین"></div>
+      <div class="fi"><label>آیکون</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="goal-icon-grid"></div>
+      </div>
+      <div class="fi"><label>مبلغ هدف (تومان)</label><input id="g_tg" type="number" placeholder="0"></div>
+      <div class="fi"><label>پس‌انداز ماهانه (تومان)</label><input id="g_mn" type="number" placeholder="0"></div>
+      <div class="fi"><label>تا الان پس‌انداز شده (تومان)</label><input id="g_sv" type="number" placeholder="0"></div>
+      <button class="btn dk" onclick="addGoal()">افزودن هدف</button>
+    </div>
+  </div>
+
+  <!-- TAB 6: محاسبه -->
+  <div class="tc" id="t6">
     <div class="card">
       <div style="font-weight:bold;font-size:13px;margin-bottom:6px">نسبت مشارکت در اقساط</div>
       <div class="mt" style="margin-bottom:12px">فرمول: حقوق محاسباتی / مجموع = درصد مشارکت</div>
       <div style="display:flex;gap:10px">
-        <div class="rdark" style="background:#1e3a5f"><div style="font-size:12px" id="cn1">اقا</div><div style="font-size:28px;font-weight:bold;margin:5px 0" id="cr1">0%</div><div style="font-size:11px;opacity:.65;margin-bottom:3px">سهم از اقساط</div><div style="font-size:13px" id="co1">0 ت</div></div>
-        <div class="rdark" style="background:#4c1d1d"><div style="font-size:12px" id="cn2">خانم</div><div style="font-size:28px;font-weight:bold;margin:5px 0" id="cr2">0%</div><div style="font-size:11px;opacity:.65;margin-bottom:3px">سهم از اقساط</div><div style="font-size:13px" id="co2">0 ت</div></div>
+        <div class="rdark" style="background:#1e3a5f"><div style="font-size:12px" id="cn1">اقا</div><div style="font-size:28px;font-weight:bold;margin:5px 0" id="cr1">۰%</div><div style="font-size:11px;opacity:.65;margin-bottom:3px">سهم از اقساط</div><div style="font-size:13px" id="co1">۰ ت</div></div>
+        <div class="rdark" style="background:#4c1d1d"><div style="font-size:12px" id="cn2">خانم</div><div style="font-size:28px;font-weight:bold;margin:5px 0" id="cr2">۰%</div><div style="font-size:11px;opacity:.65;margin-bottom:3px">سهم از اقساط</div><div style="font-size:13px" id="co2">۰ ت</div></div>
       </div>
     </div>
     <div class="card">
       <div style="font-weight:bold;font-size:13px;margin-bottom:10px" id="cst">وضعیت تسویه</div>
-      <div class="row"><span class="rl" id="csl">سهم از اقساط</span><span class="rv" id="co3">0 ت</span></div>
+      <div class="row"><span class="rl" id="csl">سهم از اقساط</span><span class="rv" id="co3">۰ ت</span></div>
       <div style="margin-top:10px">
         <div class="fi"><label id="lpp">پرداخت شده</label><input id="i_pp" type="number" oninput="sfn('p2_paid',this.value)" placeholder="0"></div>
         <div class="fi"><label>واریزی</label><input id="i_pd" type="number" oninput="sfn('p2_deposit',this.value)" placeholder="0"></div>
       </div>
       <div id="sbox" style="padding:10px 12px;border-radius:7px;display:flex;justify-content:space-between;align-items:center;background:#fef2f2">
         <span style="font-size:13px" id="srl">مانده دریافتنی</span>
-        <span style="font-size:15px;font-weight:bold" id="srv">0 ت</span>
+        <span style="font-size:15px;font-weight:bold" id="srv">۰ ت</span>
       </div>
     </div>
   </div>
 
-  <div class="tc" id="t4">
+  <!-- TAB 7: مانده -->
+  <div class="tc" id="t7">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-      <div class="bc"><div style="font-weight:bold;font-size:15px;margin-bottom:10px" id="bn1">اقا</div><div style="font-size:11px;color:#94a3b8">حقوق</div><div style="font-size:14px;margin-bottom:10px" id="bs1">0</div><div style="font-size:11px;color:#94a3b8">سهم اقساط</div><div style="font-size:14px;color:#dc2626;margin-bottom:10px" id="bo1">0</div><div style="font-size:11px;color:#94a3b8">مانده ازاد</div><div style="font-size:22px;font-weight:bold" id="br1">0</div></div>
-      <div class="bc"><div style="font-weight:bold;font-size:15px;margin-bottom:10px" id="bn2">خانم</div><div style="font-size:11px;color:#94a3b8">حقوق</div><div style="font-size:14px;margin-bottom:10px" id="bs2">0</div><div style="font-size:11px;color:#94a3b8">سهم اقساط</div><div style="font-size:14px;color:#dc2626;margin-bottom:10px" id="bo2">0</div><div style="font-size:11px;color:#94a3b8">مانده ازاد</div><div style="font-size:22px;font-weight:bold" id="br2">0</div></div>
+      <div class="bc"><div style="font-weight:bold;font-size:15px;margin-bottom:10px" id="bn1">اقا</div><div style="font-size:11px;color:#94a3b8">حقوق</div><div style="font-size:14px;margin-bottom:10px" id="bs1">۰</div><div style="font-size:11px;color:#94a3b8">سهم اقساط</div><div style="font-size:14px;color:#dc2626;margin-bottom:10px" id="bo1">۰</div><div style="font-size:11px;color:#94a3b8">مانده آزاد</div><div style="font-size:22px;font-weight:bold" id="br1">۰</div></div>
+      <div class="bc"><div style="font-weight:bold;font-size:15px;margin-bottom:10px" id="bn2">خانم</div><div style="font-size:11px;color:#94a3b8">حقوق</div><div style="font-size:14px;margin-bottom:10px" id="bs2">۰</div><div style="font-size:11px;color:#94a3b8">سهم اقساط</div><div style="font-size:14px;color:#dc2626;margin-bottom:10px" id="bo2">۰</div><div style="font-size:11px;color:#94a3b8">مانده آزاد</div><div style="font-size:22px;font-weight:bold" id="br2">۰</div></div>
     </div>
-    <div class="fin"><div style="font-size:12px;color:#94a3b8;margin-bottom:4px">مجموع ازاد خانواده</div><div style="font-size:28px;font-weight:bold" id="btot">0</div><div style="font-size:12px;color:#94a3b8;margin-top:3px">تومان</div></div>
+    <div class="fin"><div style="font-size:12px;color:#94a3b8;margin-bottom:4px">مجموع آزاد خانواده</div><div style="font-size:28px;font-weight:bold" id="btot">۰</div><div style="font-size:12px;color:#94a3b8;margin-top:3px">تومان</div></div>
   </div>
 
 </div></div>
 
+<!-- Day Picker Modal -->
+<div id="day-picker" class="dpover" onclick="closeDayPicker(event)">
+  <div class="dpbox" onclick="event.stopPropagation()">
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-weight:bold;font-size:15px">روز پرداخت در ماه</div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:3px">هر ماه چه روزی این قسط رو میدی؟</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px" id="day-grid"></div>
+    <button onclick="selDay('0','هر وقت')" style="width:100%;padding:11px;border:1px dashed #e2e8f0;border-radius:10px;background:#f8fafc;font-family:Tahoma;font-size:13px;cursor:pointer;color:#64748b">❓ موعد مشخص ندارم</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 var SB=supabase.createClient('https://gasubsqeyeivothycqmj.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhc3Vic3FleWVpdm90aHljcW1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyOTgyMjMsImV4cCI6MjEwNDg3NDIyM30.aEJKbcP-RkPh0ju9lGnHmzEb07dMlPF2Dp7g5c9PGX0');
-var CU=null,CF=null,CL=[],INV=[],saveTimer=null,authMode=0,started=false;
+var CU=null,CF=null,CL=[],CE=[],CG=[],INV=[],saveTimer=null,authMode=0,started=false;
+var selCat='other',selGoalIcon='🎯',loanRecurring=true;
+
+var CATS=[
+  {id:'food',icon:'🛒',label:'خواربار'},
+  {id:'bills',icon:'💡',label:'قبوض'},
+  {id:'clothes',icon:'👕',label:'پوشاک'},
+  {id:'health',icon:'🏥',label:'سلامت'},
+  {id:'fun',icon:'🎭',label:'تفریح'},
+  {id:'transport',icon:'🚗',label:'رفت‌وامد'},
+  {id:'edu',icon:'📚',label:'تحصیل'},
+  {id:'other',icon:'📦',label:'سایر'}
+];
+var GOAL_ICONS=['🏠','🚗','✈️','💰','🎓','💍','📱','🛋️','🎯'];
 
 function fmt(n){return Math.round(n||0).toLocaleString('fa-IR');}
 function g(id){return document.getElementById(id);}
@@ -243,10 +337,13 @@ function st(id,p,v){var e=g(id);if(e)e.style[p]=v;}
 function sv(id,v){var e=g(id);if(e&&e!==document.activeElement)e.value=(v!==undefined&&v!==null&&v!==0)?v:'';}
 function msg(id,t,c){var e=g(id);if(!e)return;e.textContent=t;e.className=c||'';e.style.display=t?'block':'none';}
 
+function getNow(){var d=new Date();return {y:d.getFullYear(),m:d.getMonth()+1,day:d.getDate()};}
+function getMonthKey(){var n=getNow();return n.y+'-'+(n.m<10?'0':'')+n.m;}
+function getMonthLabel(){var n=getNow();var ms=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];return ms[n.m-1]+' '+n.y;}
+
 function showSc(id){
-  var s=['sc-load','sc-auth','sc-setup','sc-app'];
-  for(var i=0;i<s.length;i++) g(s[i]).style.display='none';
-  if(g(id)) g(id).style.display='block';
+  ['sc-load','sc-auth','sc-setup','sc-app'].forEach(function(s){g(s).style.display='none';});
+  if(g(id))g(id).style.display='block';
 }
 
 function authTab(i){
@@ -260,7 +357,7 @@ function authTab(i){
 function doAuth(){
   var em=g('a-em').value.trim(),pw=g('a-pw').value;
   if(!em||!pw){msg('a-err','ایمیل و پسورد الزامی است','err');return;}
-  if(pw.length<6){msg('a-err','پسورد حداقل 6 کاراکتر باید باشد','err');return;}
+  if(pw.length<6){msg('a-err','پسورد حداقل 6 کاراکتر','err');return;}
   msg('a-err','');tx('a-btn','...');
   if(authMode===0){
     SB.auth.signInWithPassword({email:em,password:pw}).then(function(r){
@@ -277,74 +374,68 @@ function doAuth(){
 }
 
 function doLogout(){
-  SB.auth.signOut().then(function(){CU=null;CF=null;CL=[];INV=[];started=false;showSc('sc-auth');});
+  SB.auth.signOut().then(function(){CU=null;CF=null;CL=[];CE=[];CG=[];INV=[];started=false;showSc('sc-auth');});
 }
 
 SB.auth.onAuthStateChange(function(event,session){
   if((event==='SIGNED_IN'||event==='INITIAL_SESSION')&&session){
     if(!started){started=true;CU=session.user;tx('app-em',CU.email);loadFam();}
-  }else if(event==='INITIAL_SESSION'&&!session){
-    showSc('sc-auth');
-  }else if(event==='SIGNED_OUT'){
-    started=false;CU=null;CF=null;CL=[];INV=[];showSc('sc-auth');
-  }
+  }else if(event==='INITIAL_SESSION'&&!session){showSc('sc-auth');}
+  else if(event==='SIGNED_OUT'){started=false;CU=null;CF=null;CL=[];CE=[];CG=[];INV=[];showSc('sc-auth');}
 });
 
 function loadFam(){
   SB.from('families').select('*').or('p1_uid.eq.'+CU.id+',p2_uid.eq.'+CU.id).maybeSingle()
-    .then(function(r){
-      if(r.data){CF=r.data;loadLoans();}
-      else checkInvites();
+    .then(function(r){if(r.data){CF=r.data;loadAll();}else checkInvites();});
+}
+
+function loadAll(){
+  SB.from('loans').select('*').eq('family_id',CF.id).order('created_at').then(function(r){CL=r.data||[];
+    SB.from('expenses').select('*').eq('family_id',CF.id).eq('expense_month',getMonthKey()).order('created_at').then(function(r2){CE=r2.data||[];
+      SB.from('goals').select('*').eq('family_id',CF.id).order('created_at').then(function(r3){CG=r3.data||[];
+        populateInputs();upd();showSc('sc-app');
+      });
     });
+  });
 }
 
 function checkInvites(){
-  SB.from('invites').select('*,families(name)').eq('to_email',CU.email).eq('status','pending')
-    .then(function(r){
-      INV=r.data||[];
-      var h='';
-      for(var i=0;i<INV.length;i++){
-        var fn=(INV[i].families&&INV[i].families.name)?INV[i].families.name:'خانواده';
-        h+='<div class="inv"><div style="font-weight:bold;font-size:14px;margin-bottom:6px">دعوت نامه</div>';
-        h+='<div style="font-size:13px;color:#64748b;margin-bottom:12px">دعوت به خانواده <b>'+fn+'</b></div>';
-        h+='<div style="display:flex;gap:8px"><button class="btn gr sm" onclick="accI('+i+')">پذیرفتن</button> ';
-        h+='<button class="btn rd sm" onclick="rejI('+i+')">رد کردن</button></div></div>';
-      }
-      ih('inv-cards',h);
-      showSc('sc-setup');
-    });
+  SB.from('invites').select('*,families(name)').eq('to_email',CU.email).eq('status','pending').then(function(r){
+    INV=r.data||[];
+    var h='';
+    for(var i=0;i<INV.length;i++){
+      var fn=(INV[i].families&&INV[i].families.name)?INV[i].families.name:'خانواده';
+      h+='<div class="inv"><div style="font-weight:bold;font-size:14px;margin-bottom:6px">دعوت نامه</div>';
+      h+='<div style="font-size:13px;color:#64748b;margin-bottom:12px">دعوت به خانواده <b>'+fn+'</b></div>';
+      h+='<div style="display:flex;gap:8px"><button class="btn gr sm" onclick="accI('+i+')">پذیرفتن</button> ';
+      h+='<button class="btn rd sm" onclick="rejI('+i+')">رد کردن</button></div></div>';
+    }
+    ih('inv-cards',h);showSc('sc-setup');
+  });
 }
 
 function accI(i){
   var inv=INV[i];
   SB.from('families').update({p2_uid:CU.id}).eq('id',inv.family_id).then(function(r){
     if(r.error){alert(r.error.message);return;}
-    SB.from('invites').update({status:'accepted'}).eq('id',inv.id).then(function(){
-      started=false;loadFam();
-    });
+    SB.from('invites').update({status:'accepted'}).eq('id',inv.id).then(function(){started=false;loadFam();});
   });
 }
-
-function rejI(i){
-  SB.from('invites').update({status:'rejected'}).eq('id',INV[i].id).then(function(){checkInvites();});
-}
+function rejI(i){SB.from('invites').update({status:'rejected'}).eq('id',INV[i].id).then(function(){checkInvites();});}
 
 function createFam(){
   var nm=g('f-fname').value.trim();
   if(!nm){msg('f-err','نام خانواده الزامی است','err');return;}
-  msg('f-err','');
   SB.from('families').insert({name:nm,p1_uid:CU.id,p1_name:'',p2_name:'',p1_salary:0,p2_salary:0,exempt1:0,exempt2:0,p2_paid:0,p2_deposit:0})
     .select().single().then(function(r){
       if(r.error){msg('f-err',r.error.message,'err');return;}
-      CF=r.data;CL=[];populateInputs();upd();showSc('sc-app');
+      CF=r.data;CL=[];CE=[];CG=[];populateInputs();upd();showSc('sc-app');
     });
 }
 
 function sendInv(){
   var em=g('inv-em').value.trim();
   if(!em){msg('inv-err','ایمیل الزامی است','err');return;}
-  if(!CF)return;
-  msg('inv-err','');msg('inv-ok','');
   SB.from('invites').insert({family_id:CF.id,from_uid:CU.id,to_email:em,status:'pending'})
     .then(function(r){
       if(r.error)msg('inv-err',r.error.message,'err');
@@ -352,58 +443,170 @@ function sendInv(){
     });
 }
 
-function loadLoans(){
-  SB.from('loans').select('*').eq('family_id',CF.id).order('created_at')
-    .then(function(r){CL=r.data||[];populateInputs();upd();showSc('sc-app');});
-}
-
 function sf(k,v){
   if(!CF)return;CF[k]=v;upd();
   clearTimeout(saveTimer);
   saveTimer=setTimeout(function(){var u={};u[k]=v;SB.from('families').update(u).eq('id',CF.id).then(function(){});},700);
 }
-
 function sfn(k,v){
   if(!CF)return;CF[k]=parseFloat(v)||0;upd();
   clearTimeout(saveTimer);
   saveTimer=setTimeout(function(){var u={};u[k]=CF[k];SB.from('families').update(u).eq('id',CF.id).then(function(){});},700);
 }
 
+// LOANS
+function setRec(v){
+  loanRecurring=v;
+  g('rec-btn-yes').className=v?'on':'';
+  g('rec-btn-no').className=v?'':'on';
+  g('due-day-row').style.display=v?'block':'none';
+}
+
 function addLoan(){
   if(!CF)return;
   var nm=g('l_nm').value.trim();if(!nm)return;
-  SB.from('loans').insert({family_id:CF.id,name:nm,amount:parseFloat(g('l_am').value)||0,due:g('l_du').value.trim(),deferred:false})
+  var dd=parseInt(g('l_du').value)||0;
+  SB.from('loans').insert({family_id:CF.id,name:nm,amount:parseFloat(g('l_am').value)||0,due_day:dd,recurring:loanRecurring,deferred:false,due:dd>0?dd+'م':''})
     .select().single().then(function(r){
-      if(r.data){CL.push(r.data);g('l_nm').value='';g('l_am').value='';g('l_du').value='';upd();}
+      if(r.data){CL.push(r.data);g('l_nm').value='';g('l_am').value='';g('l_du').value='';tx('l_du_txt','انتخاب روز');st('l_du_txt','color','#94a3b8');g('l_du_disp').style.borderColor='#e2e8f0';upd();}
     });
 }
 
 function togL(btn){
   var id=btn.id.slice(4);
-  for(var i=0;i<CL.length;i++){
-    if(CL[i].id===id){var nv=!CL[i].deferred;CL[i].deferred=nv;SB.from('loans').update({deferred:nv}).eq('id',id).then(function(){});upd();return;}
-  }
+  for(var i=0;i<CL.length;i++){if(CL[i].id===id){var nv=!CL[i].deferred;CL[i].deferred=nv;SB.from('loans').update({deferred:nv}).eq('id',id).then(function(){});upd();return;}}
 }
-
 function delL(btn){
   var id=btn.id.slice(4);
-  SB.from('loans').delete().eq('id',id).then(function(){
-    var a=[];for(var i=0;i<CL.length;i++)if(CL[i].id!==id)a.push(CL[i]);CL=a;upd();
-  });
+  SB.from('loans').delete().eq('id',id).then(function(){var a=[];for(var i=0;i<CL.length;i++)if(CL[i].id!==id)a.push(CL[i]);CL=a;upd();});
 }
-
 function ulaL(inp){
   var id=inp.id.slice(4),am=parseFloat(inp.value)||0;
-  for(var i=0;i<CL.length;i++){
-    if(CL[i].id===id){CL[i].amount=am;SB.from('loans').update({amount:am}).eq('id',id).then(function(){});upd();return;}
+  for(var i=0;i<CL.length;i++){if(CL[i].id===id){CL[i].amount=am;SB.from('loans').update({amount:am}).eq('id',id).then(function(){});upd();return;}}
+}
+
+// EXPENSES
+function buildCatGrid(){
+  var grid=g('cat-grid');if(!grid||grid.children.length>0)return;
+  for(var i=0;i<CATS.length;i++){
+    var c=CATS[i];
+    var b=document.createElement('button');
+    b.className='cat-btn'+(c.id===selCat?' on':'');
+    b.id='cat_'+c.id;
+    b.innerHTML='<div>'+c.icon+'</div><div>'+c.label+'</div>';
+    b.setAttribute('data-id',c.id);
+    b.onclick=(function(ci){return function(){
+      selCat=ci;
+      var all=document.querySelectorAll('.cat-btn');
+      for(var j=0;j<all.length;j++) all[j].className='cat-btn';
+      this.className='cat-btn on';
+    };})(c.id);
+    grid.appendChild(b);
   }
 }
 
-function sw(i){
-  for(var j=0;j<5;j++){g('t'+j).className='tc';g('tb'+j).className='tb';}
-  g('t'+i).className='tc on';g('tb'+i).className='tb on';
+function addExp(){
+  if(!CF)return;
+  var am=parseFloat(g('e_am').value)||0;
+  if(!am)return;
+  var nm=g('e_nm').value.trim()||getCatLabel(selCat);
+  SB.from('expenses').insert({family_id:CF.id,name:nm,amount:am,category:selCat,expense_month:getMonthKey()})
+    .select().single().then(function(r){
+      if(r.data){CE.push(r.data);g('e_nm').value='';g('e_am').value='';upd();}
+    });
 }
 
+function delE(btn){
+  var id=btn.id.slice(4);
+  SB.from('expenses').delete().eq('id',id).then(function(){var a=[];for(var i=0;i<CE.length;i++)if(CE[i].id!==id)a.push(CE[i]);CE=a;upd();});
+}
+
+function getCatLabel(id){for(var i=0;i<CATS.length;i++)if(CATS[i].id===id)return CATS[i].label;return 'سایر';}
+function getCatIcon(id){for(var i=0;i<CATS.length;i++)if(CATS[i].id===id)return CATS[i].icon;return '📦';}
+
+// GOALS
+function buildGoalIcons(){
+  var grid=g('goal-icon-grid');if(!grid||grid.children.length>0)return;
+  for(var i=0;i<GOAL_ICONS.length;i++){
+    var ic=GOAL_ICONS[i];
+    var b=document.createElement('button');
+    b.textContent=ic;
+    b.style.cssText='font-size:24px;padding:8px;border:2px solid #e2e8f0;border-radius:8px;background:#f8fafc;cursor:pointer;'+(ic===selGoalIcon?'border-color:#2563eb;background:#eff6ff;':'');
+    b.setAttribute('data-ic',ic);
+    b.onclick=(function(ii){return function(){
+      selGoalIcon=ii;
+      var all=g('goal-icon-grid').querySelectorAll('button');
+      for(var j=0;j<all.length;j++){all[j].style.borderColor='#e2e8f0';all[j].style.background='#f8fafc';}
+      this.style.borderColor='#2563eb';this.style.background='#eff6ff';
+    };})(ic);
+    grid.appendChild(b);
+  }
+}
+
+function addGoal(){
+  if(!CF)return;
+  var nm=g('g_nm').value.trim();if(!nm)return;
+  var tg=parseFloat(g('g_tg').value)||0;
+  var mn=parseFloat(g('g_mn').value)||0;
+  var sv_=parseFloat(g('g_sv').value)||0;
+  SB.from('goals').insert({family_id:CF.id,name:nm,icon:selGoalIcon,target_amount:tg,monthly_contribution:mn,saved_amount:sv_})
+    .select().single().then(function(r){
+      if(r.data){CG.push(r.data);g('g_nm').value='';g('g_tg').value='';g('g_mn').value='';g('g_sv').value='';upd();}
+    });
+}
+
+function delG(btn){
+  var id=btn.id.slice(4);
+  SB.from('goals').delete().eq('id',id).then(function(){var a=[];for(var i=0;i<CG.length;i++)if(CG[i].id!==id)a.push(CG[i]);CG=a;upd();});
+}
+
+function updGoalSaved(inp){
+  var id=inp.id.slice(3),sv_=parseFloat(inp.value)||0;
+  for(var i=0;i<CG.length;i++){
+    if(CG[i].id===id){CG[i].saved_amount=sv_;SB.from('goals').update({saved_amount:sv_}).eq('id',id).then(function(){});upd();return;}
+  }
+}
+
+// TABS
+function sw(i){
+  for(var j=0;j<8;j++){if(g('t'+j))g('t'+j).className='tc';if(g('tb'+j))g('tb'+j).className='tb';}
+  if(g('t'+i))g('t'+i).className='tc on';
+  if(g('tb'+i))g('tb'+i).className='tb on';
+  if(i===4)buildCatGrid();
+  if(i===5)buildGoalIcons();
+}
+
+// DAY PICKER
+(function(){
+  var grid=g('day-grid');if(!grid)return;
+  for(var d=1;d<=30;d++){
+    var btn=document.createElement('button');
+    btn.textContent=d;
+    btn.setAttribute('data-d',d);
+    btn.style.cssText='background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:10px 4px;font-family:Tahoma;font-size:14px;cursor:pointer;font-weight:bold;color:#0f172a';
+    btn.onclick=function(){selDay(this.getAttribute('data-d'),'روز '+this.getAttribute('data-d')+'ام');};
+    grid.appendChild(btn);
+  }
+})();
+
+function openDayPicker(){
+  var pk=g('day-picker');pk.style.display='flex';
+  var cur=g('l_du').value;
+  var btns=document.querySelectorAll('#day-grid button');
+  for(var i=0;i<btns.length;i++){
+    if(btns[i].getAttribute('data-d')===cur){btns[i].style.background='#2563eb';btns[i].style.color='#fff';btns[i].style.borderColor='#2563eb';}
+    else{btns[i].style.background='#f8fafc';btns[i].style.color='#0f172a';btns[i].style.borderColor='#e2e8f0';}
+  }
+}
+function closeDayPicker(e){if(!e||e.target===g('day-picker'))g('day-picker').style.display='none';}
+function selDay(val,label){
+  g('l_du').value=val;
+  var txt=g('l_du_txt');txt.textContent=label;txt.style.color='#0f172a';
+  g('l_du_disp').style.borderColor='#2563eb';
+  g('day-picker').style.display='none';
+}
+
+// CALC
 function calc(){
   if(!CF)return{p1a:0,p2a:0,tot:1,p1r:0,p2r:0,ta:0,td:0,p1o:0,p2o:0,p2n:0,p1Rem:0,p2Rem:0};
   var p1s=CF.p1_salary||0,p2s=CF.p2_salary||0;
@@ -418,38 +621,84 @@ function calc(){
 function n1(){return(CF&&CF.p1_name)||'اقا';}
 function n2(){return(CF&&CF.p2_name)||'خانم';}
 
+function getLoanStatus(l){
+  if(l.deferred)return 'def';
+  if(!l.recurring)return 'ok';
+  var dd=l.due_day||0;
+  if(!dd)return 'ok';
+  var today=getNow().day;
+  if(dd<today-2)return 'ok';
+  if(dd<=today+3)return 'soon';
+  return 'ok';
+}
+
 function populateInputs(){
   if(!CF)return;
   var f=[['f_fn','name'],['f_p1n','p1_name'],['f_p2n','p2_name'],
          ['i_p1s','p1_salary'],['i_p2s','p2_salary'],
-         ['i_e1','exempt1'],['i_e2','exempt2'],
-         ['i_pp','p2_paid'],['i_pd','p2_deposit']];
+         ['i_e1','exempt1'],['i_e2','exempt2'],['i_pp','p2_paid'],['i_pd','p2_deposit']];
   for(var i=0;i<f.length;i++){var e=g(f[i][0]);if(e&&e!==document.activeElement)e.value=CF[f[i][1]]||'';}
+  tx('cur-month-lbl',getMonthLabel());
 }
 
 function upd(){
   if(!CF)return;
   var c=calc(),_1=n1(),_2=n2();
+  var totExp=CE.reduce(function(s,e){return s+(parseFloat(e.amount)||0);},0);
+  var totGoalSave=CG.reduce(function(s,g_){return s+(parseFloat(g_.monthly_contribution)||0);},0);
+  var freeTotal=((CF.p1_salary||0)+(CF.p2_salary||0))-c.ta-totExp-totGoalSave;
+
   tx('app-hdr',CF.name?'خانواده '+CF.name:'مدیریت مالی');
-  var ps=CF.p2_uid?'<span class="bg">متصل</span>':'<span class="by">در انتظار پذیرش دعوت</span>';
+  tx('dash-month',getMonthLabel());
+  tx('dash-free',fmt(freeTotal));
+  tx('dash-income',fmt((CF.p1_salary||0)+(CF.p2_salary||0)));
+  tx('dash-loans',fmt(c.ta));
+  tx('dash-exp',fmt(totExp));
+  tx('dash-save',fmt(totGoalSave));
+
+  // upcoming loans
+  var today=getNow().day;
+  var up='';
+  var sorted=CL.slice().sort(function(a,b){return (a.due_day||0)-(b.due_day||0);});
+  for(var i=0;i<sorted.length&&i<4;i++){
+    var l=sorted[i];
+    if(l.deferred||!l.due_day)continue;
+    var diff=l.due_day-today;
+    var clr=diff<0?'#dc2626':diff<=3?'#f59e0b':'#16a34a';
+    var lbl=diff<0?'گذشته':diff===0?'امروز':diff+'روز دیگه';
+    up+='<div class="row"><span style="font-size:13px">'+l.name+'</span>';
+    up+='<div style="text-align:left"><div style="font-size:13px">'+fmt(l.amount)+' ت</div>';
+    up+='<div style="font-size:11px;color:'+clr+'">'+lbl+'</div></div></div>';
+  }
+  if(!up) up='<div style="color:#94a3b8;font-size:13px;text-align:center;padding:8px 0">موعد قسط نزدیکی نداری</div>';
+  ih('dash-upcoming',up);
+
+  // partner
+  var ps=CF.p2_uid?'<span class="bg">متصل</span>':'<span class="by">در انتظار پذیرش</span>';
   ih('partner-st','<div class="row"><span class="rl">وضعیت همسر دوم</span><span>'+ps+'</span></div>');
+
+  // salaries
   tx('lb1','همسر اول - '+_1);tx('lb2','همسر دوم - '+_2);
   tx('lp1s','حقوق '+_1);tx('lp2s','حقوق '+_2);
-  tx('le1','معافیت همسر خانم (%) - درصدی از حقوق '+_1+' که '+_2+' معاف میکنه');
-  tx('le2','معافیت همسر اقا (%) - درصدی از حقوق '+_2+' که '+_1+' معاف میکنه');
+  tx('le1','معافیت همسر خانم (%) - حقوق '+_1+' که '+_2+' معاف میکنه');
+  tx('le2','معافیت همسر اقا (%) - حقوق '+_2+' که '+_1+' معاف میکنه');
   tx('la1','حقوق محاسباتی '+_1);tx('la2','حقوق محاسباتی '+_2);
   tx('lr1','نسبت '+_1);tx('lr2','نسبت '+_2);
   tx('da1',fmt(c.p1a)+' ت');tx('da2',fmt(c.p2a)+' ت');
   tx('dtr',fmt((CF.p1_salary||0)+(CF.p2_salary||0))+' ت');tx('dtc',fmt(c.tot)+' ت');
   tx('dr1',(c.p1r*100).toFixed(1)+'%');tx('dr2',(c.p2r*100).toFixed(1)+'%');
+
+  // calc tab
   tx('cn1',_1);tx('cn2',_2);
   tx('cr1',(c.p1r*100).toFixed(1)+'%');tx('cr2',(c.p2r*100).toFixed(1)+'%');
   tx('co1',fmt(c.p1o)+' ت');tx('co2',fmt(c.p2o)+' ت');tx('co3',fmt(c.p2o)+' ت');
-  tx('cst','وضعیت تسویه '+_2);tx('csl','سهم '+_2+' از اقساط فعال');tx('lpp','پرداخت شده توسط '+_2);
+  tx('cst','وضعیت تسویه '+_2);tx('csl','سهم '+_2+' از اقساط');tx('lpp','پرداخت شده توسط '+_2);
   var pos=c.p2n>0;
   st('sbox','background',pos?'#fef2f2':'#f0fdf4');
   tx('srl',pos?'مانده دریافتنی از '+_2:_2+' اضافه پرداخت کرده');
   tx('srv',fmt(Math.abs(c.p2n))+' ت');st('srv','color',pos?'#dc2626':'#16a34a');
+
+  // balance tab
   tx('bn1',_1);tx('bn2',_2);
   tx('bs1',fmt(CF.p1_salary||0));tx('bs2',fmt(CF.p2_salary||0));
   tx('bo1',fmt(c.p1o));tx('bo2',fmt(c.p2o));
@@ -457,14 +706,20 @@ function upd(){
   st('br1','color',c.p1Rem>=0?'#16a34a':'#dc2626');
   st('br2','color',c.p2Rem>=0?'#16a34a':'#dc2626');
   tx('btot',fmt(c.p1Rem+c.p2Rem));
+
+  // loans list
   var lh='';
-  if(CL.length===0)lh='<div style="text-align:center;padding:28px 0;color:#94a3b8;font-size:14px">هنوز بدهی ثبت نشده</div>';
+  if(CL.length===0)lh='<div style="text-align:center;padding:28px 0;color:#94a3b8">هنوز قسطی ثبت نشده</div>';
   for(var i=0;i<CL.length;i++){
-    var l=CL[i],bc=l.deferred?'#fef3c7':'#dcfce7',fc=l.deferred?'#92400e':'#15803d';
-    lh+='<div class="lrow" style="opacity:'+(l.deferred?'0.55':'1')+'">';
-    lh+='<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+l.name+'</div>';
-    lh+='<div style="display:flex;gap:6px;margin-top:3px;align-items:center">';
-    if(l.due)lh+='<span style="font-size:11px;color:#94a3b8">موعد: '+l.due+'</span>';
+    var l=CL[i],st_=getLoanStatus(l);
+    var bc=l.deferred?'#fef3c7':'#dcfce7',fc=l.deferred?'#92400e':'#15803d';
+    var cls='lrow '+(st_==='def'?'loan-def':st_==='soon'?'loan-soon':st_==='due'?'loan-due':'loan-ok');
+    lh+='<div class="'+cls+'">';
+    lh+='<div style="flex:1;min-width:0">';
+    lh+='<div style="font-size:13px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+l.name+'</div>';
+    lh+='<div style="display:flex;gap:5px;margin-top:3px;align-items:center">';
+    if(l.due_day)lh+='<span style="font-size:11px;color:#94a3b8">روز '+l.due_day+'ام</span>';
+    lh+='<span style="font-size:10px;color:#94a3b8">'+(l.recurring?'ماهانه':'یکبار')+'</span>';
     lh+='<button id="tog_'+l.id+'" class="tgl" style="background:'+bc+';color:'+fc+'" onclick="togL(this)">'+(l.deferred?'موکول':'فعال')+'</button>';
     lh+='</div></div>';
     lh+='<input id="ula_'+l.id+'" type="number" class="lai" value="'+(l.amount||'')+'" placeholder="0" onchange="ulaL(this)">';
@@ -477,6 +732,55 @@ function upd(){
     if(c.td>0)th+='<div style="background:#374151;border-radius:8px;color:#e2e8f0;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:13px;color:#94a3b8">موکول</span><span>'+fmt(c.td)+' ت</span></div>';
   }
   ih('lt',th);
+
+  // expenses
+  var bycat={};
+  for(var i=0;i<CE.length;i++){var cat=CE[i].category||'other';if(!bycat[cat])bycat[cat]=0;bycat[cat]+=parseFloat(CE[i].amount)||0;}
+  var etot='';
+  for(var k in bycat){etot+='<div class="row"><span class="rl">'+getCatIcon(k)+' '+getCatLabel(k)+'</span><span class="rv">'+fmt(bycat[k])+' ت</span></div>';}
+  if(!etot)etot='<div style="color:#94a3b8;font-size:13px;text-align:center;padding:8px 0">هنوز هزینه‌ای ثبت نشده</div>';
+  etot+='<div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:4px;font-weight:bold"><span>جمع کل</span><span style="color:#dc2626">'+fmt(totExp)+' ت</span></div>';
+  ih('exp-totals',etot);
+
+  var eh='';
+  for(var i=CE.length-1;i>=0;i--){
+    var ex=CE[i];
+    eh+='<div class="exp-row"><div class="exp-icon">'+getCatIcon(ex.category)+'</div>';
+    eh+='<div style="flex:1"><div style="font-size:13px;font-weight:bold">'+ex.name+'</div>';
+    eh+='<div style="font-size:11px;color:#94a3b8">'+getCatLabel(ex.category)+'</div></div>';
+    eh+='<div style="font-size:14px;font-weight:bold">'+fmt(ex.amount)+' ت</div>';
+    eh+='<button id="dex_'+ex.id+'" class="x" onclick="delE(this)">&#x2715;</button></div>';
+  }
+  ih('exp-list',eh);
+
+  // goals
+  var gh='';
+  if(CG.length===0)gh='<div style="text-align:center;padding:20px 0;color:#94a3b8;font-size:13px">هنوز هدفی تعریف نشده</div>';
+  for(var i=0;i<CG.length;i++){
+    var gol=CG[i];
+    var pct=gol.target_amount>0?Math.min(100,Math.round((gol.saved_amount/gol.target_amount)*100)):0;
+    var rem=gol.target_amount-gol.saved_amount;
+    var months=gol.monthly_contribution>0?Math.ceil(rem/gol.monthly_contribution):0;
+    gh+='<div class="goal-card">';
+    gh+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+    gh+='<div style="display:flex;align-items:center;gap:8px"><span style="font-size:24px">'+gol.icon+'</span>';
+    gh+='<div><div style="font-weight:bold;font-size:14px">'+gol.name+'</div>';
+    gh+='<div style="font-size:12px;color:#94a3b8">هدف: '+fmt(gol.target_amount)+' ت</div></div></div>';
+    gh+='<button id="dgo_'+gol.id+'" class="x" onclick="delG(this)">&#x2715;</button></div>';
+    gh+='<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div>';
+    gh+='<div style="display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-bottom:8px">';
+    gh+='<span>'+fmt(gol.saved_amount)+' ت پس‌انداز شده</span><span>'+pct+'%</span></div>';
+    gh+='<div style="display:flex;gap:8px;align-items:center">';
+    gh+='<div style="flex:1;font-size:12px;color:#2563eb">'+fmt(gol.monthly_contribution)+' ت / ماه</div>';
+    if(months>0)gh+='<div style="font-size:12px;color:#64748b">~'+months+' ماه دیگه</div>';
+    else if(pct>=100)gh+='<div style="font-size:12px;color:#16a34a">به هدف رسیدی!</div>';
+    gh+='</div>';
+    gh+='<div style="margin-top:8px;display:flex;align-items:center;gap:8px">';
+    gh+='<label style="font-size:12px;color:#64748b;flex-shrink:0">پس‌انداز شده:</label>';
+    gh+='<input id="gs_'+gol.id+'" type="number" value="'+(gol.saved_amount||'')+'" placeholder="0" onchange="updGoalSaved(this)" style="flex:1;padding:7px 10px;border:1px solid #e2e8f0;border-radius:7px;font-family:Tahoma;font-size:13px;outline:none">';
+    gh+='</div></div>';
+  }
+  ih('goal-list',gh);
 }
 </script>
 </body>
