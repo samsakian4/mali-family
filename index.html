@@ -158,6 +158,7 @@ input[type=number]{-moz-appearance:textfield}button{font-family:Tahoma}
 
   <!-- TAB 1: خانواده -->
   <div class="tc" id="t1">
+    <div id="inv-banner"></div>
     <div class="card">
       <div style="font-weight:bold;font-size:13px;margin-bottom:12px">اطلاعات خانواده</div>
       <div class="fi"><label>نام خانواده</label><input id="f_fn" type="text" dir="rtl" oninput="sf('name',this.value)"></div>
@@ -386,7 +387,23 @@ SB.auth.onAuthStateChange(function(event,session){
 
 function loadFam(){
   SB.from('families').select('*').or('p1_uid.eq.'+CU.id+',p2_uid.eq.'+CU.id).maybeSingle()
-    .then(function(r){if(r.data){CF=r.data;loadAll();}else checkInvites();});
+    .then(function(r){
+      if(r.data){
+        CF=r.data;
+        checkPendingInvites();
+        loadAll();
+      } else {
+        // ساخت خودکار خانواده شخصی
+        var nm=CU.email.split('@')[0];
+        SB.from('families').insert({name:nm,p1_uid:CU.id,p1_name:'',p2_name:'',p1_salary:0,p2_salary:0,exempt1:0,exempt2:0,p2_paid:0,p2_deposit:0})
+          .select().single().then(function(r2){
+            if(r2.error){showSc('sc-setup');return;}
+            CF=r2.data;
+            checkPendingInvites();
+            loadAll();
+          });
+      }
+    });
 }
 
 function loadAll(){
@@ -399,29 +416,46 @@ function loadAll(){
   });
 }
 
-function checkInvites(){
-  SB.from('invites').select('*,families(name)').eq('to_email',CU.email).eq('status','pending').then(function(r){
-    INV=r.data||[];
-    var h='';
-    for(var i=0;i<INV.length;i++){
-      var fn=(INV[i].families&&INV[i].families.name)?INV[i].families.name:'خانواده';
-      h+='<div class="inv"><div style="font-weight:bold;font-size:14px;margin-bottom:6px">دعوت نامه</div>';
-      h+='<div style="font-size:13px;color:#64748b;margin-bottom:12px">دعوت به خانواده <b>'+fn+'</b></div>';
-      h+='<div style="display:flex;gap:8px"><button class="btn gr sm" onclick="accI('+i+')">پذیرفتن</button> ';
-      h+='<button class="btn rd sm" onclick="rejI('+i+')">رد کردن</button></div></div>';
-    }
-    ih('inv-cards',h);showSc('sc-setup');
-  });
+function checkPendingInvites(){
+  SB.from('invites').select('*,families(name)').eq('to_email',CU.email).eq('status','pending')
+    .then(function(r){
+      INV=r.data||[];renderInvBanner();
+    });
+}
+
+function renderInvBanner(){
+  var h='';
+  for(var i=0;i<INV.length;i++){
+    var fn=(INV[i].families&&INV[i].families.name)?INV[i].families.name:'خانواده';
+    h+='<div class="inv" style="margin-bottom:12px">';
+    h+='<div style="font-weight:bold;font-size:14px;margin-bottom:6px">🔔 دعوت نامه دریافتی</div>';
+    h+='<div style="font-size:13px;color:#64748b;margin-bottom:8px">دعوت به پیوستن به خانواده <b>'+fn+'</b></div>';
+    h+='<div style="font-size:12px;background:#fef3c7;color:#92400e;padding:8px;border-radius:6px;margin-bottom:10px">⚠️ با پذیرفتن، همه داده های شما با این خانواده ادغام میشن</div>';
+    h+='<div style="display:flex;gap:8px">';
+    h+='<button class="btn gr sm" onclick="accI('+i+')">✓ پذیرفتن و ادغام</button>';
+    h+='<button class="btn rd sm" onclick="rejI('+i+')">✕ رد کردن</button>';
+    h+='</div></div>';
+  }
+  ih('inv-banner',h);
 }
 
 function accI(i){
   var inv=INV[i];
-  SB.from('families').update({p2_uid:CU.id}).eq('id',inv.family_id).then(function(r){
-    if(r.error){alert(r.error.message);return;}
-    SB.from('invites').update({status:'accepted'}).eq('id',inv.id).then(function(){started=false;loadFam();});
+  SB.rpc('accept_family_invite',{
+    p_invite_id:inv.id,
+    p_joiner_family_id:CF?CF.id:null
+  }).then(function(r){
+    if(r.error){alert('خطا: '+r.error.message);return;}
+    started=false;CF=null;CL=[];CE=[];CG=[];
+    loadFam();
   });
 }
-function rejI(i){SB.from('invites').update({status:'rejected'}).eq('id',INV[i].id).then(function(){checkInvites();});}
+
+function rejI(i){
+  SB.from('invites').update({status:'rejected'}).eq('id',INV[i].id).then(function(){
+    INV.splice(i,1);renderInvBanner();
+  });
+}
 
 function createFam(){
   var nm=g('f-fname').value.trim();
